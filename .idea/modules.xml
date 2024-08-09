@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/khtmx.core.commonMain.iml" filepath="$PROJECT_DIR$/.idea/modules/core/khtmx.core.commonMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/khtmx.core.commonTest.iml" filepath="$PROJECT_DIR$/.idea/modules/core/khtmx.core.commonTest.iml" />
     </modules>
   </component>
 </project>

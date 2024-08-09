@@ -13,7 +13,6 @@ fun CommonAttributeGroupFacade.hxBoost(value: Boolean) {
     this.hxBoost = value
 }
 
-// TODO: Trigger DSL
 var CommonAttributeGroupFacade.hxTrigger: String
     get() = this.attributes["hx-trigger"] ?: ""
     set(value) {
@@ -23,6 +22,14 @@ var CommonAttributeGroupFacade.hxTrigger: String
 fun CommonAttributeGroupFacade.hxTrigger(value: String) {
     this.hxTrigger = value
 }
+
+fun CommonAttributeGroupFacade.hxTrigger(block: TriggerDsl.() -> Unit) =
+    TriggerDsl()
+        .block()
+        .toString()
+        .also {
+            hxTrigger = it
+        }
 
 var CommonAttributeGroupFacade.hxTarget: String
     get() = this.attributes["hx-target"] ?: ""

@@ -1,21 +1,36 @@
 plugins {
-    kotlin("multiplatform") version "2.0.0"
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotest.multiplatform)
 }
 
 group = "de.fpietzko.khtmx"
 version = "0.0.1"
 
 kotlin {
-    jvmToolchain(21)
     jvm { }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(kotlinxhtml.common)
+            implementation(libs.kotlinx.html.common)
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotest.assertions.core)
+            implementation(libs.kotest.framework.engine)
+            implementation(libs.kotest.framework.datatest)
         }
 
         jvmMain.dependencies {
-            implementation(kotlinxhtml.jvm)
+            implementation(libs.kotlinx.html.jvm)
+        }
+
+        jvmTest.dependencies {
+            implementation(libs.kotest.runner.junit5)
         }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
