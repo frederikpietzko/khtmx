@@ -1,6 +1,7 @@
 package de.fpietzko.khtmx.core
 
 import de.fpietzko.khtmx.core.QueueOption.all
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 
@@ -115,6 +116,15 @@ class TriggerDslTest : ShouldSpec({
             every { 1.sec } condition "someCondition"
         }
         trigger shouldBe "every 1s [someCondition]"
+    }
+
+    should("throw InvalidTriggerException") {
+        shouldThrow<InvalidTriggerException> {
+            trigger {
+                click {  }
+                every { 1.sec }
+            }
+        }
     }
 })
 
