@@ -6,6 +6,7 @@ It also provides a convenient dsl to build complex htmx expression for triggers.
 ## Roadmap
 
 - [ ] Publishing to Maven
+- [ ] Provide Examples
 - [x] Trigger Dsl
 - [ ] Swap Dsl
 - [ ] Sync Dsl
