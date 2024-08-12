@@ -1,4 +1,4 @@
-package de.fpietzko.khtmx.core
+package io.github.frederikpietzko.core
 
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe

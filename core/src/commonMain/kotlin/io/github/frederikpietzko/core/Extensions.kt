@@ -1,4 +1,4 @@
-package de.fpietzko.khtmx.core
+package io.github.frederikpietzko.core
 
 import kotlinx.html.CommonAttributeGroupFacade
 import kotlinx.html.classes

@@ -1,6 +1,6 @@
-package de.fpietzko.khtmx.core
+package io.github.frederikpietzko.core
 
-import de.fpietzko.khtmx.core.QueueOption.all
+import io.github.frederikpietzko.core.QueueOption.all
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe

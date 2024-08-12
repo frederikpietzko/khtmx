@@ -1,4 +1,4 @@
-package de.fpietzko.khtmx.core
+package io.github.frederikpietzko.core
 
 data class InvalidTriggerException(override val message: String) : Exception(message)
 
