@@ -62,8 +62,7 @@ sealed class Modifier(val value: String) {
     }
 }
 
-val Int.sec
-    get() = "${this}s"
+
 
 object QueueOption {
     enum class Option(val value: String) {

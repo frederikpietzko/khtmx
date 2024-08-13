@@ -102,6 +102,9 @@ var CommonAttributeGroupFacade.hxSwap: String?
         this.attributes["hx-swap"] = value ?: ""
     }
 
+val Int.sec
+    get() = "${this}s"
+
 fun CommonAttributeGroupFacade.hxSwap(block: SwapDsl.() -> Unit) {
     this.hxSwap = SwapDsl().apply(block).toString()
 }

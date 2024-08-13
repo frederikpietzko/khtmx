@@ -36,11 +36,13 @@ sealed class SwapModifier(protected val value: String) {
             return "$value:$timing"
         }
     }
+
     class Settle internal constructor(private val timing: String) : SwapModifier("settle") {
         override fun toString(): String {
             return "$value:$timing"
         }
     }
+
     class IgnoreTitle internal constructor() : SwapModifier("ignoreTitle")
     class Scroll internal constructor(
         private val behaviour: ScrollAndShowBehaviour.Behaviour,
@@ -48,7 +50,7 @@ sealed class SwapModifier(protected val value: String) {
     ) : SwapModifier("scroll") {
         override fun toString(): String = buildString {
             append(value)
-            if(target != null) {
+            if (target != null) {
                 append(":$target")
             }
             append(":${behaviour.value}")
@@ -61,7 +63,7 @@ sealed class SwapModifier(protected val value: String) {
     ) : SwapModifier("show") {
         override fun toString(): String = buildString {
             append(value)
-            if(target != null) {
+            if (target != null) {
                 append(":$target")
             }
             append(":${behaviour.value}")
@@ -75,55 +77,31 @@ sealed class SwapModifier(protected val value: String) {
     }
 }
 
-data class SwapDsl internal constructor(
-    internal var swapType: SwapType? = null,
+data class ModifierDsl(
     internal val modifiers: MutableList<SwapModifier> = mutableListOf(),
 ) {
-    fun innerHtml(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.INNER_HTML, block)
 
-    fun outerHtml(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.OUTER_HTML, block)
-
-    fun beforeBegin(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.BEFORE_BEGIN, block)
-
-    fun afterBegin(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.AFTER_BEGIN, block)
-
-    fun beforeEnd(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.BEFORE_END, block)
-
-    fun afterEnd(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.AFTER_END, block)
-
-    fun delete(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.DELETE, block)
-
-    fun none(block: SwapDsl.() -> Unit) =
-        setSwapType(SwapType.NONE, block)
-
-    fun transition(): SwapDsl {
+    fun transition(): ModifierDsl {
         modifiers.add(SwapModifier.Transition())
         return this
     }
 
-    fun swap(timing: String): SwapDsl {
+    fun swap(timing: String): ModifierDsl {
         modifiers.add(SwapModifier.Swap(timing))
         return this
     }
 
-    fun settle(timing: String): SwapDsl {
+    fun settle(timing: String): ModifierDsl {
         modifiers.add(SwapModifier.Settle(timing))
         return this
     }
 
-    fun ignoreTitle(): SwapDsl {
+    fun ignoreTitle(): ModifierDsl {
         modifiers.add(SwapModifier.IgnoreTitle())
         return this
     }
 
-    fun scroll(block: ScrollAndShowDsl.() -> Unit): SwapDsl {
+    fun scroll(block: ScrollAndShowDsl.() -> Unit): ModifierDsl {
         modifiers.add(
             ScrollAndShowDsl()
                 .apply(block)
@@ -135,7 +113,7 @@ data class SwapDsl internal constructor(
         return this
     }
 
-    fun show(block: ScrollAndShowDsl.() -> Unit): SwapDsl {
+    fun show(block: ScrollAndShowDsl.() -> Unit): ModifierDsl {
         modifiers.add(
             ScrollAndShowDsl()
                 .apply(block)
@@ -147,25 +125,54 @@ data class SwapDsl internal constructor(
         return this
     }
 
-    fun focusScroll(focus: Boolean): SwapDsl {
+    fun focusScroll(focus: Boolean): ModifierDsl {
         modifiers.add(
             SwapModifier.FocusScroll(focus)
         )
         return this
     }
+}
+
+data class SwapDsl internal constructor(
+    internal var swapType: SwapType? = null,
+    internal val modifierDsl: ModifierDsl = ModifierDsl()
+) {
+    fun innerHtml(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.INNER_HTML, block)
+
+    fun outerHtml(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.OUTER_HTML, block)
+
+    fun beforeBegin(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.BEFORE_BEGIN, block)
+
+    fun afterBegin(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.AFTER_BEGIN, block)
+
+    fun beforeEnd(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.BEFORE_END, block)
+
+    fun afterEnd(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.AFTER_END, block)
+
+    fun delete(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.DELETE, block)
+
+    fun none(block: ModifierDsl.() -> Unit) =
+        setSwapType(SwapType.NONE, block)
 
     override fun toString(): String = buildString {
         append(requireNotNull(swapType).value)
-        modifiers.forEach {
+        modifierDsl.modifiers.forEach {
             append(" $it")
         }
     }
 
 
-    private fun setSwapType(swapType: SwapType, block: SwapDsl.() -> Unit) =
+    private fun setSwapType(swapType: SwapType, block: ModifierDsl.() -> Unit) =
         this
             .apply { this.swapType = swapType }
-            .apply(block)
+            .apply { this.modifierDsl.apply(block) }
 }
 
 enum class SwapType(val value: String) {
