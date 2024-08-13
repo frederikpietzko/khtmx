@@ -8,7 +8,7 @@ It also provides a convenient dsl to build complex htmx expression for triggers.
 - [ ] Publishing to Maven
 - [ ] Provide Examples
 - [x] Trigger Dsl
-- [ ] Swap Dsl
+- [x] Swap Dsl
 - [ ] Sync Dsl
 - [ ] Configuration Dsl
 - [ ] Extensions for CSRF Tokens
