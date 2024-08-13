@@ -95,34 +95,16 @@ fun CommonAttributeGroupFacade.hxIndicator() {
     this.classes += setOf("htmx-indicator")
 }
 
-object HxSwap {
-    enum class SwapType(val value: String) {
-        INNER_HTML("innerHTML"),
-        OUTER_HTML("outerHTML"),
-        BEFORE_BEGIN("beforebegin"),
-        AFTER_BEGIN("afterbegin"),
-        BEFORE_END("beforeend"),
-        AFTER_END("afterend"),
-        DELETE("delete"),
-        NONE("none")
-    }
 
-    val innerHtml = SwapType.INNER_HTML
-    val outerHtml = SwapType.OUTER_HTML
-    val beforebegin = SwapType.BEFORE_BEGIN
-    val afterbegin = SwapType.AFTER_BEGIN
-    val beforeend = SwapType.BEFORE_END
-    val afterend = SwapType.AFTER_END
-    val delete = SwapType.DELETE
-    val none = SwapType.NONE
-}
-
-// TODO: Swap Dsl
-var CommonAttributeGroupFacade.hxSwap: HxSwap.SwapType
-    get() = this.attributes["hx-swap"]?.let { HxSwap.SwapType.valueOf(it) } ?: HxSwap.SwapType.NONE
+var CommonAttributeGroupFacade.hxSwap: String?
+    get() = this.attributes["hx-swap"]
     set(value) {
-        this.attributes["hx-swap"] = value.value
+        this.attributes["hx-swap"] = value ?: ""
     }
+
+fun CommonAttributeGroupFacade.hxSwap(block: SwapDsl.() -> Unit) {
+    this.hxSwap = SwapDsl().apply(block).toString()
+}
 
 var CommonAttributeGroupFacade.hxSwapOob: Boolean
     get() = this.attributes["hx-swap-oob"]?.toBoolean() ?: false
@@ -164,7 +146,7 @@ var CommonAttributeGroupFacade.hxPushUrl: Boolean
 var CommonAttributeGroupFacade.hxDisable: Boolean
     get() = this.attributes["hx-disable"] != null
     set(value) {
-        if(value){
+        if (value) {
             this.attributes["hx-disable"] = ""
         } else {
             this.attributes.remove("hx-disable")
