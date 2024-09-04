@@ -5,7 +5,11 @@ It also provides a convenient dsl to build complex htmx expression for triggers.
 
 ## Roadmap
 
-- [ ] Publishing to Maven
+- [ ] Publishing to Maven Central
+  * [x] JReleaser
+  * [ ] Javadoc
+  * [ ] Release Locally
+  * [ ] Release from CI on Tag Release
 - [ ] Provide Examples
 - [x] Trigger Dsl
 - [x] Swap Dsl
