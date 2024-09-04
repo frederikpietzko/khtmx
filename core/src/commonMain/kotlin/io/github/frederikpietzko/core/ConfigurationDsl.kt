@@ -7,7 +7,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class Configuration(
+data class HTMXConfiguration(
     var historyEnabled: Boolean = true,
     var historyCacheSize: Int = 10,
     var refreshOnHistoryMiss: Boolean = false,
@@ -44,8 +44,8 @@ data class Configuration(
     var allowNestedOobSwaps: Boolean = true,
 )
 
-fun HEAD.htmxConfig(block: Configuration.() -> Unit) {
-    val config = Configuration().apply(block)
+fun HEAD.htmxConfig(block: HTMXConfiguration.() -> Unit) {
+    val config = HTMXConfiguration().apply(block)
     meta {
         name = "htmx-config"
         content = Json.encodeToString(config)
