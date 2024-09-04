@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotest.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     `maven-publish`
     signing
 }
@@ -14,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.html.common)
+            implementation(libs.kotlinx.serialization.json)
         }
 
         commonTest.dependencies {

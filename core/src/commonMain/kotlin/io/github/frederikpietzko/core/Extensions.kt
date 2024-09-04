@@ -2,6 +2,9 @@ package io.github.frederikpietzko.core
 
 import kotlinx.html.CommonAttributeGroupFacade
 import kotlinx.html.classes
+import kotlinx.html.head
+import kotlinx.html.html
+import kotlinx.html.stream.appendHTML
 
 var CommonAttributeGroupFacade.hxBoost: Boolean
     get() = this.attributes["hx-boost"]?.toBoolean() ?: false
@@ -157,3 +160,12 @@ var CommonAttributeGroupFacade.hxDisable: Boolean
     }
 
 // TODO: Configuration Dsl
+fun test() {
+    buildString {
+        appendHTML().html {
+            head {
+
+            }
+        }
+    }
+}

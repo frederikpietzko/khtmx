@@ -2,6 +2,7 @@
 kotlin = "2.0.0"
 kotest = "5.9.1"
 kotlinx_html = "0.11.0"
+kotlinx_serialization = "1.7.2"
 
 [libraries]
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -10,7 +11,9 @@ kotest-framework-datatest = { module = "io.kotest:kotest-framework-datatest", ve
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotlinx-html-common = { module = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinx_html" }
 kotlinx-html-jvm = { module = "org.jetbrains.kotlinx:kotlinx-html-jvm", version.ref = "kotlinx_html" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx_serialization" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotest-multiplatform = { id = "io.kotest.multiplatform", version.ref = "kotest" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

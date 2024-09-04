@@ -1,5 +1,14 @@
 package io.github.frederikpietzko.core
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+
 
 object ScrollAndShowBehaviour {
     enum class Behaviour(val value: String) {
@@ -175,6 +184,7 @@ data class SwapDsl internal constructor(
             .apply { this.modifierDsl.apply(block) }
 }
 
+@Serializable(with = SwapTypeSerializer::class)
 enum class SwapType(val value: String) {
     INNER_HTML("innerHTML"),
     OUTER_HTML("outerHTML"),
@@ -183,5 +193,25 @@ enum class SwapType(val value: String) {
     BEFORE_END("beforeend"),
     AFTER_END("afterend"),
     DELETE("delete"),
-    NONE("none")
+    NONE("none");
+
+    companion object {
+        fun of(value: String): SwapType {
+            return entries.single { it.value == value }
+        }
+    }
+}
+
+object SwapTypeSerializer : KSerializer<SwapType> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("SwapType", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): SwapType {
+        val string = decoder.decodeString()
+        return SwapType.of(string)
+    }
+
+    override fun serialize(encoder: Encoder, value: SwapType) {
+        val string = value.value
+        encoder.encodeString(string)
+    }
 }
