@@ -133,6 +133,10 @@ fun CommonAttributeGroupFacade.hxSync(value: String) {
     this.hxSync = value
 }
 
+fun CommonAttributeGroupFacade.hxSync(block: SyncDsl.() -> Unit) {
+    this.hxSync = SyncDsl().apply(block).toString()
+}
+
 var CommonAttributeGroupFacade.hxConfirm: String
     get() = this.attributes["hx-confirm"] ?: ""
     set(value) {

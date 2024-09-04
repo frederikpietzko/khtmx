@@ -9,7 +9,7 @@ It also provides a convenient dsl to build complex htmx expression for triggers.
 - [ ] Provide Examples
 - [x] Trigger Dsl
 - [x] Swap Dsl
-- [ ] Sync Dsl
+- [x] Sync Dsl
 - [x] Configuration Dsl
 - [ ] Extensions for CSRF Tokens
 - [ ] Spring Autoconfiguration
