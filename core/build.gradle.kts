@@ -1,9 +1,13 @@
+import org.jreleaser.model.Active
+import org.jreleaser.model.Active.ALWAYS
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotest.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     `maven-publish`
     signing
+    alias(libs.plugins.jreleaser)
 }
 
 group = "io.github.frederikpietzko"
@@ -39,12 +43,14 @@ tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
+val releasesRepoUrl = layout.buildDirectory.dir("repos/releases")
+val snapshotsRepoUrl = layout.buildDirectory.dir("repos/snapshots")
+val repo = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+
 publishing {
     repositories {
         maven {
-            val releasesRepoUrl = layout.buildDirectory.dir("repos/releases")
-            val snapshotsRepoUrl = layout.buildDirectory.dir("repos/snapshots")
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+            url = uri(repo)
         }
     }
     publications.withType<MavenPublication> {
@@ -80,4 +86,22 @@ signing {
 tasks.withType<AbstractPublishToMaven>().configureEach {
     val signingTasks = tasks.withType<Sign>()
     mustRunAfter(signingTasks)
+}
+
+jreleaser {
+    signing {
+        active = ALWAYS
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                create("sonatype") {
+                    active = ALWAYS
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    stagingRepository(repo.get().asFile.path)
+                }
+            }
+        }
+    }
 }
